@@ -39,6 +39,11 @@
       ],
       "expo-mail-composer"
     ],
-    "extra": {}
+    "extra": {
+      "eas": {
+        "projectId": "6313b1d2-54b6-4593-b732-0a3706665ab2"
+      }
+    },
+    "owner": "doinglight"
   }
 }
