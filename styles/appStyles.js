@@ -584,10 +584,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "flex-start"
   },
+  submitButtonDisabled: {
+    opacity: 0.7
+  },
   submitText: {
     color: "#ffffff",
     fontWeight: "700",
     fontSize: 14
+  },
+  submitStatus: {
+    marginTop: 10,
+    fontSize: 13,
+    lineHeight: 18,
+    maxWidth: 520
+  },
+  submitStatusSuccess: {
+    color: "#34511c"
+  },
+  submitStatusError: {
+    color: "#a33b2c"
   },
   legalWrap: {
     marginTop: 12,

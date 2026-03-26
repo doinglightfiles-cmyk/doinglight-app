@@ -16,10 +16,10 @@ import { Asset } from "expo-asset";
 import { Camera } from "expo-camera";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
-import * as MailComposer from "expo-mail-composer";
 import { SvgXml } from "react-native-svg";
 import SideDrawer from "./components/SideDrawer";
 import {
+  APP_BACKEND_URL,
   BRAND_COLOR,
   CATALOG_REQUEST_SUBJECT,
   INTRO_DURATION_MS,
@@ -74,6 +74,9 @@ export default function App() {
   const [luxValue, setLuxValue] = useState(null);
   const [luxLabel, setLuxLabel] = useState("");
   const [luxMessage, setLuxMessage] = useState("");
+  const [submittingAssistant, setSubmittingAssistant] = useState(false);
+  const [assistantSubmitStatus, setAssistantSubmitStatus] = useState("");
+  const [assistantSubmitMessage, setAssistantSubmitMessage] = useState("");
   const [cameraReady, setCameraReady] = useState(false);
   const cameraRef = useRef(null);
 
@@ -285,68 +288,74 @@ export default function App() {
     return true;
   };
 
-  const buildEmailBody = () => {
-    const roomLines = rooms
-      .map((room) => {
-        const area = roomAreas[room] || "No informado";
-        const distance =
-          roofType === "Tejado inclinado"
-            ? inclinedDistances[room] || "No informado"
-            : singleDistance || "No informado";
+  const buildAssistantPayload = () => {
+    const normalizedRooms = rooms.map((room) => ({
+      name: room,
+      area: roomAreas[room] || "",
+      distance: roofType === "Tejado inclinado" ? inclinedDistances[room] || "" : singleDistance || ""
+    }));
 
-        return `- ${room}: ${area} m2 | Distancia techo-tejado: ${distance} m`;
-      })
-      .join("\n");
-
-    return [
-      "Nueva solicitud de proyecto - Tubos solares",
-      "",
-      `Nombre: ${fullName || "No informado"}`,
-      `Email: ${email || "No informado"}`,
-      `Consentimiento legal: ${acceptedLegal ? "Aceptado" : "No aceptado"}`,
-      "",
-      "Ubicacion y orientacion:",
-      `Coordenadas: ${locationText || "No capturada"}`,
-      `Orientacion vivienda (brujula): ${headingText || "No capturada"}`,
-      `Hemisferio: ${solarData.hemisphere}`,
-      `Recomendacion solar: ${solarData.recomendacion}`,
-      "",
-      "Cuestionario:",
-      `Tipo de tejado/cubierta: ${roofType || "No informado"}`,
-      "Estancias:",
-      roomLines,
-      "",
-      `Dispositivo: ${Platform.OS}`,
-      `Fecha: ${new Date().toISOString()}`
-    ].join("\n");
+    return {
+      acceptedLegal,
+      email,
+      fullName,
+      headingCardinal,
+      headingDegrees,
+      headingText,
+      inclinedDistances,
+      locationAddress,
+      locationText,
+      platform: Platform.OS,
+      roofType,
+      roomAreas,
+      rooms,
+      roomsDetailed: normalizedRooms,
+      singleDistance,
+      solarHemisphere: solarData.hemisphere,
+      solarRecommendation: solarData.recomendacion,
+      submittedAt: new Date().toISOString()
+    };
   };
 
-  const submitByEmail = async () => {
+  const submitAssistantRequest = async () => {
     if (!validateForm()) return;
-
-    const subject = "Solicitud de proyecto personalizado - Tubos solares";
-    const body = buildEmailBody();
+    if (submittingAssistant) return;
 
     try {
-      const isAvailable = await MailComposer.isAvailableAsync();
-      if (isAvailable) {
-        await MailComposer.composeAsync({
-          recipients: [RECEIVER_EMAIL],
-          subject,
-          body
-        });
-        return;
+      setSubmittingAssistant(true);
+      setAssistantSubmitStatus("");
+      setAssistantSubmitMessage("");
+
+      const response = await fetch(`${APP_BACKEND_URL}/api/assistant/request`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(buildAssistantPayload())
+      });
+
+      let responseData = null;
+      try {
+        responseData = await response.json();
+      } catch (error) {
+        responseData = null;
       }
 
-      const mailto = `mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      const supported = await Linking.canOpenURL(mailto);
-      if (!supported) {
-        Alert.alert("No disponible", "No se detecto app de correo en este dispositivo.");
-        return;
+      if (!response.ok) {
+        const errorMessage = responseData?.message || "No se pudo enviar el formulario.";
+        throw new Error(errorMessage);
       }
-      await Linking.openURL(mailto);
+
+      setAssistantSubmitStatus("success");
+      setAssistantSubmitMessage("Solicitud enviada correctamente. Le responderemos por email.");
+      Alert.alert("Solicitud enviada", "Hemos recibido sus datos correctamente.");
     } catch (error) {
-      Alert.alert("Error", "No se pudo abrir el cliente de correo.");
+      const errorMessage = error?.message || "No se pudo enviar el formulario.";
+      setAssistantSubmitStatus("error");
+      setAssistantSubmitMessage(errorMessage);
+      Alert.alert("Error", errorMessage);
+    } finally {
+      setSubmittingAssistant(false);
     }
   };
 
@@ -601,7 +610,7 @@ export default function App() {
         }
         onRoofTypeChange={setRoofType}
         onSingleDistanceChange={setSingleDistance}
-        onSubmit={submitByEmail}
+        onSubmit={submitAssistantRequest}
         onInclinedDistanceChange={(room, value) =>
           setInclinedDistances((prev) => ({
             ...prev,
@@ -614,6 +623,9 @@ export default function App() {
         roofType={roofType}
         sectionFade={sectionFade}
         singleDistance={singleDistance}
+        submitMessage={assistantSubmitMessage}
+        submitStatus={assistantSubmitStatus}
+        submitting={submittingAssistant}
       />
     );
   };

@@ -2,6 +2,7 @@ import { Asset } from "expo-asset";
 
 export const RECEIVER_EMAIL = "info@doinglight.es";
 export const WEBSITE_URL = "https://doinglight.es";
+export const APP_BACKEND_URL = "https://doinglight-app-backend-production.up.railway.app";
 export const CATALOG_REQUEST_SUBJECT = "Solicitud de catalogo Doinglight";
 export const ROOF_TYPES = ["Tejado plano", "Tejado inclinado", "Tejado abuhardillado"];
 export const BRAND_COLOR = "#9cc31a";

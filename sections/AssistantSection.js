@@ -42,7 +42,10 @@ export default function AssistantSection({
   rooms,
   roofType,
   sectionFade,
-  singleDistance
+  singleDistance,
+  submitMessage,
+  submitStatus,
+  submitting
 }) {
   if (activeSection !== "asistente") {
     return (
@@ -240,9 +243,26 @@ export default function AssistantSection({
         />
       </View>
 
-      <Pressable style={styles.submitButton} onPress={onSubmit}>
-        <Text style={styles.submitText}>SOLICITAR INFORMACIÓN</Text>
+      <Pressable
+        disabled={submitting}
+        style={[styles.submitButton, submitting ? styles.submitButtonDisabled : null]}
+        onPress={onSubmit}
+      >
+        <Text style={styles.submitText}>
+          {submitting ? "ENVIANDO SOLICITUD..." : "SOLICITAR INFORMACIÓN"}
+        </Text>
       </Pressable>
+      {submitMessage ? (
+        <Text
+          style={[
+            styles.submitStatus,
+            submitStatus === "success" ? styles.submitStatusSuccess : null,
+            submitStatus === "error" ? styles.submitStatusError : null
+          ]}
+        >
+          {submitMessage}
+        </Text>
+      ) : null}
 
       <Pressable style={styles.legalWrap} onPress={onAcceptedLegalChange}>
         <View style={[styles.checkbox, acceptedLegal ? styles.checkboxChecked : null]}>
