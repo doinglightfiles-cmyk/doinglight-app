@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Doinglight Fresh",
-    "slug": "doinglight-app-fresh",
+    "name": "Doinglight Skylights",
+    "slug": "doinglight-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "doinglightfresh",
+    "scheme": "doinglight",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
     "ios": {
