@@ -4,14 +4,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { DOWNLOAD_ITEMS } from "../constants/appConstants";
 import styles from "../styles/appStyles";
 
-export default function CatalogosSection({ onOpenDownload, onOpenMail, onOpenWeb, sectionFade }) {
+export default function FichasTecnicasSection({ onOpenDownload, onOpenMail, onOpenWeb, sectionFade }) {
   return (
     <Animated.View style={{ opacity: sectionFade }}>
       <View style={styles.infoSectionWrap}>
-        <Text style={styles.sectionHeroTitle}>Catalogos</Text>
+        <Text style={styles.sectionHeroTitle}>Fichas tecnicas</Text>
         <Text style={styles.sectionHeroText}>
-          Acceda a los catalogos comerciales de Doinglight y descargue el documento mas adecuado
-          segun el tipo de proyecto.
+          Acceda a la documentacion tecnica de Doinglight y descargue el archivo mas adecuado segun
+          el tipo de producto o proyecto.
         </Text>
 
         <View style={styles.downloadList}>
@@ -36,7 +36,7 @@ export default function CatalogosSection({ onOpenDownload, onOpenMail, onOpenWeb
               </View>
               <Pressable style={styles.primaryCta} onPress={() => onOpenDownload(item)}>
                 <MaterialIcons name="download" size={18} color="#ffffff" />
-                <Text style={styles.primaryCtaText}>Descargar catalogo</Text>
+                <Text style={styles.primaryCtaText}>Descargar PDF</Text>
               </Pressable>
             </View>
           ))}

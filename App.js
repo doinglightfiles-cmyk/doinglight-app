@@ -31,6 +31,7 @@ import LOGO_PIE_WHITE_XML from "./assets/logoPieWhiteXml";
 import AssistantSection from "./sections/AssistantSection";
 import CatalogosSection from "./sections/CatalogosSection";
 import ContactoSection from "./sections/ContactoSection";
+import FichasTecnicasSection from "./sections/FichasTecnicasSection";
 import HomeSection from "./sections/HomeSection";
 import LuxometroSection from "./sections/LuxometroSection";
 import styles from "./styles/appStyles";
@@ -547,6 +548,17 @@ export default function App() {
     if (activeSection === "catalogos") {
       return (
         <CatalogosSection
+          onOpenDownload={openDownload}
+          onOpenMail={openCatalogRequest}
+          onOpenWeb={() => openUrl(WEBSITE_URL)}
+          sectionFade={sectionFade}
+        />
+      );
+    }
+
+    if (activeSection === "fichas") {
+      return (
+        <FichasTecnicasSection
           onOpenDownload={openDownload}
           onOpenMail={openCatalogRequest}
           onOpenWeb={() => openUrl(WEBSITE_URL)}

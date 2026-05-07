@@ -53,7 +53,10 @@ export default function SideDrawer({ drawerAnim, drawerOpen, onClose, onSelect }
           <Text style={styles.drawerItemText}>luxometro</Text>
         </Pressable>
         <Pressable style={styles.drawerItem} onPress={() => onSelect("catalogos")}>
-          <Text style={styles.drawerItemText}>descargas</Text>
+          <Text style={styles.drawerItemText}>catalogos</Text>
+        </Pressable>
+        <Pressable style={styles.drawerItem} onPress={() => onSelect("fichas")}>
+          <Text style={styles.drawerItemText}>fichas tecnicas</Text>
         </Pressable>
         <Pressable style={styles.drawerItem} onPress={() => onSelect("contacto")}>
           <Text style={styles.drawerItemText}>contacto</Text>

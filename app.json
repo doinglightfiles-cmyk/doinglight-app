@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Doinglight Skylights",
-    "slug": "doinglight-app",
+    "slug": "doinglight-app-fresh",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -39,11 +39,11 @@
       ],
       "expo-mail-composer"
     ],
+    "owner": "doinglight",
     "extra": {
       "eas": {
         "projectId": "6313b1d2-54b6-4593-b732-0a3706665ab2"
       }
-    },
-    "owner": "doinglight"
+    }
   }
 }
