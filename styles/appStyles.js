@@ -522,6 +522,115 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "700"
   },
+  techSheetsGrid: {
+    marginTop: 22,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 14
+  },
+  techSheetCard: {
+    width: "48%",
+    backgroundColor: "#f4f7ee",
+    borderWidth: 1,
+    borderColor: "#dbe4c8",
+    padding: 10,
+    gap: 10
+  },
+  techSheetThumb: {
+    width: "100%",
+    aspectRatio: 1,
+    backgroundColor: "#e8efd9",
+    borderWidth: 1,
+    borderColor: "#d3dec0",
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  techSheetThumbImage: {
+    width: "100%",
+    height: "100%"
+  },
+  techSheetThumbPlaceholder: {
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  techSheetTitle: {
+    color: "#243515",
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: "700"
+  },
+  pdfViewerScreen: {
+    flex: 1,
+    backgroundColor: "#ffffff"
+  },
+  pdfViewerHeader: {
+    paddingTop: 14,
+    paddingHorizontal: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#dbe4c8",
+    backgroundColor: "#f7f9f2",
+    gap: 10
+  },
+  pdfViewerBack: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    alignSelf: "flex-start"
+  },
+  pdfViewerBackText: {
+    color: "#243515",
+    fontSize: 15,
+    fontWeight: "700"
+  },
+  pdfViewerTitle: {
+    color: "#243515",
+    fontSize: 18,
+    lineHeight: 24,
+    fontWeight: "700"
+  },
+  pdfViewerBody: {
+    flex: 1,
+    backgroundColor: "#edf1e3"
+  },
+  pdfViewer: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#edf1e3"
+  },
+  pdfViewerLoading: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    backgroundColor: "rgba(255,255,255,0.85)",
+    zIndex: 2
+  },
+  pdfViewerLoadingText: {
+    color: "#5f6b54",
+    fontSize: 14,
+    fontWeight: "600"
+  },
+  pdfViewerFallback: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 24
+  },
+  pdfViewerFallbackText: {
+    color: "#5f6b54",
+    fontSize: 15,
+    lineHeight: 22,
+    textAlign: "center"
+  },
   downloadLang: {
     borderWidth: 1,
     borderColor: "#cfd7bf",

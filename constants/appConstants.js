@@ -16,6 +16,90 @@ export const HOME_BANNER_CONTACTO = require("../assets/home-contacto.jpg");
 export const LUXOMETRO_BG = require("../assets/luxometro-bg.jpg");
 export const DOWNLOAD_GENERAL_ES = require("../assets/downloads/ES_Catalogo_Doinglight.pdf");
 export const DOWNLOAD_INDUSTRIAL_ES = require("../assets/downloads/Doinglight_Industrial.pdf");
+export const TECH_SHEET_TEJADO_PLANO = require("../assets/fichas-tecnicas/tejado-plano.jpg");
+export const TECH_SHEET_TEJADO_INCLINADO = require("../assets/fichas-tecnicas/tejado-inclinado.jpg");
+export const TECH_SHEET_TEJADO_ABUHARDILLADO = require("../assets/fichas-tecnicas/tejado-abuhardillado.jpg");
+export const TECH_SHEET_TEJADO_PLANO_VENT = require("../assets/fichas-tecnicas/tejado-plano-con-ventilacion.png");
+export const TECH_SHEET_TEJADO_INCLINADO_VENT = require("../assets/fichas-tecnicas/tejado-inclinado-con-ventilacion.jpg");
+export const TECH_SHEET_TEJADO_ABUHARDILLADO_VENT = require("../assets/fichas-tecnicas/tejado-abuhardillado-con-ventilacion.jpg");
+export const TECH_SHEET_FACHADA = require("../assets/fichas-tecnicas/fachada.jpg");
+export const TECH_SHEET_TUBO_CUADRADO = require("../assets/fichas-tecnicas/tubo-solar-cuadrado.jpg");
+export const TECH_SHEET_KIT_INDUSTRIAL = require("../assets/fichas-tecnicas/kit-industrial.jpg");
+export const TECH_PDF_TEJADO_PLANO = require("../assets/fichas-tecnicas-pdf/tejado-plano.pdf");
+export const TECH_PDF_TEJADO_INCLINADO = require("../assets/fichas-tecnicas-pdf/tejado-inclinado.pdf");
+export const TECH_PDF_TEJADO_ABUHARDILLADO = require("../assets/fichas-tecnicas-pdf/tejado-abuhardillado.pdf");
+export const TECH_PDF_FACHADA = require("../assets/fichas-tecnicas-pdf/fachada.pdf");
+export const TECH_PDF_TEJADO_PLANO_VENT = require("../assets/fichas-tecnicas-pdf/tejado-plano-con-ventilacion.pdf");
+export const TECH_PDF_TEJADO_INCLINADO_VENT = require("../assets/fichas-tecnicas-pdf/tejado-inclinado-con-ventilacion.pdf");
+export const TECH_PDF_TEJADO_ABUHARDILLADO_VENT = require("../assets/fichas-tecnicas-pdf/tejado-abuhardillado-con-ventilacion.pdf");
+export const TECH_PDF_TUBO_CUADRADO = require("../assets/fichas-tecnicas-pdf/tubo-solar-cuadrado.pdf");
+export const TECH_PDF_KIT_INDUSTRIAL = require("../assets/fichas-tecnicas-pdf/kit-industrial.pdf");
+
+export const TECHNICAL_SHEET_ITEMS = [
+  {
+    id: "tejado-plano",
+    title: "Tejado Plano",
+    icon: "crop-3-2",
+    image: TECH_SHEET_TEJADO_PLANO,
+    pdf: TECH_PDF_TEJADO_PLANO
+  },
+  {
+    id: "tejado-inclinado",
+    title: "Tejado Inclinado",
+    icon: "roofing",
+    image: TECH_SHEET_TEJADO_INCLINADO,
+    pdf: TECH_PDF_TEJADO_INCLINADO
+  },
+  {
+    id: "tejado-abuhardillado",
+    title: "Tejado Abuhardillado",
+    icon: "home-work",
+    image: TECH_SHEET_TEJADO_ABUHARDILLADO,
+    pdf: TECH_PDF_TEJADO_ABUHARDILLADO
+  },
+  {
+    id: "fachada",
+    title: "Fachada",
+    icon: "apartment",
+    image: TECH_SHEET_FACHADA,
+    pdf: TECH_PDF_FACHADA
+  },
+  {
+    id: "tejado-plano-con-ventilacion",
+    title: "Tejado Plano Con Ventilación",
+    icon: "air",
+    image: TECH_SHEET_TEJADO_PLANO_VENT,
+    pdf: TECH_PDF_TEJADO_PLANO_VENT
+  },
+  {
+    id: "tejado-inclinado-con-ventilacion",
+    title: "Tejado Inclinado Con Ventilación",
+    icon: "air",
+    image: TECH_SHEET_TEJADO_INCLINADO_VENT,
+    pdf: TECH_PDF_TEJADO_INCLINADO_VENT
+  },
+  {
+    id: "tejado-abuhardillado-con-ventilacion",
+    title: "Tejado Abuhardillado Con Ventilación",
+    icon: "air",
+    image: TECH_SHEET_TEJADO_ABUHARDILLADO_VENT,
+    pdf: TECH_PDF_TEJADO_ABUHARDILLADO_VENT
+  },
+  {
+    id: "tubo-solar-cuadrado",
+    title: "Tubo Solar Cuadrado",
+    icon: "crop-square",
+    image: TECH_SHEET_TUBO_CUADRADO,
+    pdf: TECH_PDF_TUBO_CUADRADO
+  },
+  {
+    id: "kit-industrial",
+    title: "Kit Industrial",
+    icon: "factory",
+    image: TECH_SHEET_KIT_INDUSTRIAL,
+    pdf: TECH_PDF_KIT_INDUSTRIAL
+  }
+];
 
 export const DOWNLOAD_ITEMS = [
   {
