@@ -524,18 +524,22 @@ const styles = StyleSheet.create({
   },
   techSheetsGrid: {
     marginTop: 22,
+    gap: 14
+  },
+  techSheetsRow: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
     gap: 14
   },
   techSheetCard: {
-    width: "48%",
+    flex: 1,
     backgroundColor: "#f4f7ee",
     borderWidth: 1,
     borderColor: "#dbe4c8",
     padding: 10,
     gap: 10
+  },
+  techSheetCardSpacer: {
+    flex: 1
   },
   techSheetThumb: {
     width: "100%",

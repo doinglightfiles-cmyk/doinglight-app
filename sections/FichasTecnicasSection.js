@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { ActivityIndicator, Animated, Image, Modal, Platform, Pressable, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Asset } from "expo-asset";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TECHNICAL_SHEET_ITEMS } from "../constants/appConstants";
 import styles from "../styles/appStyles";
@@ -9,19 +10,52 @@ const PdfViewer = Platform.OS === "web" ? null : require("react-native-pdf").def
 
 export default function FichasTecnicasSection({ sectionFade }) {
   const [selectedSheet, setSelectedSheet] = useState(null);
+  const [pdfSource, setPdfSource] = useState(null);
   const [pdfLoading, setPdfLoading] = useState(true);
   const [pdfError, setPdfError] = useState("");
 
-  const pdfSource = useMemo(() => selectedSheet?.pdf ?? null, [selectedSheet]);
+  const sheetRows = useMemo(() => {
+    const rows = [];
 
-  const openSheet = (item) => {
-    setPdfLoading(true);
-    setPdfError("");
-    setSelectedSheet(item);
+    for (let index = 0; index < TECHNICAL_SHEET_ITEMS.length; index += 2) {
+      rows.push(TECHNICAL_SHEET_ITEMS.slice(index, index + 2));
+    }
+
+    return rows;
+  }, []);
+
+  const openSheet = async (item) => {
+    try {
+      setPdfLoading(true);
+      setPdfError("");
+      setPdfSource(null);
+      setSelectedSheet(item);
+
+      if (Platform.OS === "web") {
+        return;
+      }
+
+      const asset = Asset.fromModule(item.pdf);
+      await asset.downloadAsync();
+
+      const resolvedUri = asset.localUri || asset.uri;
+      if (!resolvedUri) {
+        throw new Error("No se pudo resolver el archivo PDF.");
+      }
+
+      setPdfSource({
+        uri: resolvedUri,
+        cache: true
+      });
+    } catch (error) {
+      setPdfLoading(false);
+      setPdfError("No se pudo abrir la ficha técnica.");
+    }
   };
 
   const closeSheet = () => {
     setSelectedSheet(null);
+    setPdfSource(null);
     setPdfLoading(true);
     setPdfError("");
   };
@@ -36,19 +70,24 @@ export default function FichasTecnicasSection({ sectionFade }) {
         </Text>
 
         <View style={styles.techSheetsGrid}>
-          {TECHNICAL_SHEET_ITEMS.map((item) => (
-            <Pressable key={item.id} style={styles.techSheetCard} onPress={() => openSheet(item)}>
-              <View style={styles.techSheetThumb}>
-                {item.image ? (
-                  <Image source={item.image} style={styles.techSheetThumbImage} resizeMode="cover" />
-                ) : (
-                  <View style={styles.techSheetThumbPlaceholder}>
-                    <MaterialIcons name={item.icon} size={36} color="#2f4421" />
+          {sheetRows.map((row, rowIndex) => (
+            <View key={`tech-row-${rowIndex}`} style={styles.techSheetsRow}>
+              {row.map((item) => (
+                <Pressable key={item.id} style={styles.techSheetCard} onPress={() => openSheet(item)}>
+                  <View style={styles.techSheetThumb}>
+                    {item.image ? (
+                      <Image source={item.image} style={styles.techSheetThumbImage} resizeMode="cover" />
+                    ) : (
+                      <View style={styles.techSheetThumbPlaceholder}>
+                        <MaterialIcons name={item.icon} size={36} color="#2f4421" />
+                      </View>
+                    )}
                   </View>
-                )}
-              </View>
-              <Text style={styles.techSheetTitle}>{item.title}</Text>
-            </Pressable>
+                  <Text style={styles.techSheetTitle}>{item.title}</Text>
+                </Pressable>
+              ))}
+              {row.length === 1 ? <View style={styles.techSheetCardSpacer} /> : null}
+            </View>
           ))}
         </View>
       </View>
