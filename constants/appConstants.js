@@ -115,7 +115,7 @@ export const CATALOG_ITEMS = [
     cover: CATALOG_COVER_GENERAL,
     coverRatio: getAssetRatio(CATALOG_COVER_GENERAL, 0.7),
     file: DOWNLOAD_GENERAL_ES,
-    pdfUrl: "https://drive.google.com/uc?export=download&id=1zP_tZtQpm6R1jgeafb42ETGd-TRgOPtr"
+    pdfUrl: `${APP_BACKEND_URL}/catalogos/catalogo-tarifa-general.pdf`
   },
   {
     id: "catalogo-sector-industrial",
@@ -126,7 +126,7 @@ export const CATALOG_ITEMS = [
     cover: CATALOG_COVER_INDUSTRIAL,
     coverRatio: getAssetRatio(CATALOG_COVER_INDUSTRIAL, 0.7),
     file: DOWNLOAD_INDUSTRIAL_ES,
-    pdfUrl: "https://drive.google.com/uc?export=download&id=1s99JNyI7_PGjlvT5PAfWLGSe0G9hRYOq"
+    pdfUrl: `${APP_BACKEND_URL}/catalogos/catalogo-sector-industrial.pdf`
   },
   {
     id: "catalogo-sector-ganadero",
@@ -137,7 +137,7 @@ export const CATALOG_ITEMS = [
     cover: CATALOG_COVER_GANADERO,
     coverRatio: getAssetRatio(CATALOG_COVER_GANADERO, 0.7),
     file: null,
-    pdfUrl: "https://drive.google.com/uc?export=download&id=1G--CU_cNZ9rKFtfnxEqRgtWTjijElDL2"
+    pdfUrl: `${APP_BACKEND_URL}/catalogos/sector-ganadero.pdf`
   },
   {
     id: "manual-instalacion",
@@ -148,7 +148,7 @@ export const CATALOG_ITEMS = [
     cover: CATALOG_COVER_MANUAL,
     coverRatio: getAssetRatio(CATALOG_COVER_MANUAL, 0.7),
     file: null,
-    pdfUrl: "https://drive.google.com/uc?export=download&id=1PDra1ekRaI5nHq7DqdYHVHEVE3ENNZFp"
+    pdfUrl: `${APP_BACKEND_URL}/catalogos/manual-instalacion.pdf`
   }
 ];
 
