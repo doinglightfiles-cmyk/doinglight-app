@@ -505,6 +505,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#dbe4c8"
   },
+  catalogCoverFrame: {
+    width: "100%",
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "#dbe4c8",
+    backgroundColor: "#ffffff",
+    marginBottom: 16
+  },
+  catalogCoverImage: {
+    width: "100%",
+    height: "100%"
+  },
   downloadMetaRow: {
     marginTop: 14,
     marginBottom: 16,

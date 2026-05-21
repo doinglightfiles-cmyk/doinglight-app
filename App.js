@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Animated,
   Linking,
+  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -37,6 +39,8 @@ import LuxometroSection from "./sections/LuxometroSection";
 import styles from "./styles/appStyles";
 import { classifyLux, estimateLuxFromExif, estimateLuxFromLuma } from "./utils/lux";
 import { computeSolarEstimate, toCardinal } from "./utils/solar";
+
+const PdfViewer = Platform.OS === "web" ? null : require("react-native-pdf").default;
 
 export default function App() {
   const { height: viewportHeight } = useWindowDimensions();
@@ -78,6 +82,10 @@ export default function App() {
   const [submittingAssistant, setSubmittingAssistant] = useState(false);
   const [assistantSubmitStatus, setAssistantSubmitStatus] = useState("");
   const [assistantSubmitMessage, setAssistantSubmitMessage] = useState("");
+  const [selectedCatalog, setSelectedCatalog] = useState(null);
+  const [catalogPdfSource, setCatalogPdfSource] = useState(null);
+  const [catalogPdfLoading, setCatalogPdfLoading] = useState(true);
+  const [catalogPdfError, setCatalogPdfError] = useState("");
   const [cameraReady, setCameraReady] = useState(false);
   const cameraRef = useRef(null);
 
@@ -493,17 +501,63 @@ export default function App() {
 
   const openDownload = async (item) => {
     try {
-      const asset = Asset.fromModule(item.file);
-      await asset.downloadAsync();
-      const targetUrl = asset.localUri || asset.uri;
-      if (!targetUrl) {
-        Alert.alert("No disponible", "No se pudo preparar el archivo para su descarga.");
+      setSelectedCatalog(item);
+      setCatalogPdfLoading(true);
+      setCatalogPdfError("");
+      setCatalogPdfSource(null);
+
+      if (Platform.OS === "web") {
+        if (item.pdfUrl) {
+          await openUrl(item.pdfUrl);
+          return;
+        }
+
+        if (item.file) {
+          const asset = Asset.fromModule(item.file);
+          await asset.downloadAsync();
+          const targetUrl = asset.localUri || asset.uri;
+          if (!targetUrl) {
+            throw new Error("No se pudo preparar el archivo PDF.");
+          }
+          await openUrl(targetUrl);
+          return;
+        }
+      }
+
+      if (item.pdfUrl) {
+        setCatalogPdfSource({
+          uri: item.pdfUrl,
+          cache: true
+        });
         return;
       }
-      await openUrl(targetUrl);
+
+      if (item.file) {
+        const asset = Asset.fromModule(item.file);
+        await asset.downloadAsync();
+        const targetUrl = asset.localUri || asset.uri;
+        if (!targetUrl) {
+          throw new Error("No se pudo preparar el archivo PDF.");
+        }
+        setCatalogPdfSource({
+          uri: targetUrl,
+          cache: true
+        });
+        return;
+      }
+
+      throw new Error("No hay archivo asociado a este catálogo.");
     } catch (error) {
-      Alert.alert("Error", "No se pudo abrir el archivo PDF.");
+      setCatalogPdfLoading(false);
+      setCatalogPdfError("No se pudo abrir el archivo PDF.");
     }
+  };
+
+  const closeCatalogViewer = () => {
+    setSelectedCatalog(null);
+    setCatalogPdfSource(null);
+    setCatalogPdfLoading(true);
+    setCatalogPdfError("");
   };
 
   const openCatalogRequest = async () => {
@@ -710,6 +764,59 @@ export default function App() {
         onClose={() => setDrawerOpen(false)}
         onSelect={handleMenuSelect}
       />
+
+      <Modal visible={Boolean(selectedCatalog) && Platform.OS !== "web"} animationType="slide" onRequestClose={closeCatalogViewer}>
+        <SafeAreaView style={styles.pdfViewerScreen}>
+          <View style={styles.pdfViewerHeader}>
+            <Pressable style={styles.pdfViewerBack} onPress={closeCatalogViewer}>
+              <MaterialIcons name="arrow-back" size={24} color="#243515" />
+              <Text style={styles.pdfViewerBackText}>Volver</Text>
+            </Pressable>
+            <Text style={styles.pdfViewerTitle}>{selectedCatalog?.title || "Catálogo"}</Text>
+          </View>
+
+          <View style={styles.pdfViewerBody}>
+            {!PdfViewer ? (
+              <View style={styles.pdfViewerFallback}>
+                <Text style={styles.pdfViewerFallbackText}>
+                  La visualización interna de PDFs está disponible en la app móvil.
+                </Text>
+              </View>
+            ) : (
+              <>
+                {catalogPdfLoading ? (
+                  <View style={styles.pdfViewerLoading}>
+                    <ActivityIndicator color="#9cc31a" />
+                    <Text style={styles.pdfViewerLoadingText}>Cargando catálogo...</Text>
+                  </View>
+                ) : null}
+                {catalogPdfError ? (
+                  <View style={styles.pdfViewerFallback}>
+                    <Text style={styles.pdfViewerFallbackText}>{catalogPdfError}</Text>
+                  </View>
+                ) : null}
+                {catalogPdfSource ? (
+                  <PdfViewer
+                    source={catalogPdfSource}
+                    style={styles.pdfViewer}
+                    minScale={1}
+                    maxScale={5}
+                    trustAllCerts={false}
+                    onLoadComplete={() => {
+                      setCatalogPdfLoading(false);
+                      setCatalogPdfError("");
+                    }}
+                    onError={() => {
+                      setCatalogPdfLoading(false);
+                      setCatalogPdfError("No se pudo abrir el archivo PDF.");
+                    }}
+                  />
+                ) : null}
+              </>
+            )}
+          </View>
+        </SafeAreaView>
+      </Modal>
     </View>
   );
 }

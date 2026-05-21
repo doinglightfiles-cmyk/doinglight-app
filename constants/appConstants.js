@@ -16,6 +16,10 @@ export const HOME_BANNER_CONTACTO = require("../assets/home-contacto.jpg");
 export const LUXOMETRO_BG = require("../assets/luxometro-bg.jpg");
 export const DOWNLOAD_GENERAL_ES = require("../assets/downloads/ES_Catalogo_Doinglight.pdf");
 export const DOWNLOAD_INDUSTRIAL_ES = require("../assets/downloads/Doinglight_Industrial.pdf");
+export const CATALOG_COVER_GENERAL = require("../assets/catalogos/catalogo-general.png");
+export const CATALOG_COVER_INDUSTRIAL = require("../assets/catalogos/sector-industrial.png");
+export const CATALOG_COVER_GANADERO = require("../assets/catalogos/sector-ganadero.png");
+export const CATALOG_COVER_MANUAL = require("../assets/catalogos/manual-instalacion.png");
 export const TECH_SHEET_TEJADO_PLANO = require("../assets/fichas-tecnicas/tejado-plano.jpg");
 export const TECH_SHEET_TEJADO_INCLINADO = require("../assets/fichas-tecnicas/tejado-inclinado.jpg");
 export const TECH_SHEET_TEJADO_ABUHARDILLADO = require("../assets/fichas-tecnicas/tejado-abuhardillado.jpg");
@@ -101,22 +105,50 @@ export const TECHNICAL_SHEET_ITEMS = [
   }
 ];
 
-export const DOWNLOAD_ITEMS = [
+export const CATALOG_ITEMS = [
   {
-    id: "catalogo-general-es",
-    title: "Catalogo General",
-    description: "Soluciones para viviendas, reformas y espacios interiores.",
-    tag: "Residencial",
+    id: "catalogo-tarifa-general",
+    title: "Catálogo Tarifa General",
+    description: "Tarifa general de productos y soluciones Doinglight para uso residencial y profesional.",
+    tag: "General",
     language: "ES",
-    file: DOWNLOAD_GENERAL_ES
+    cover: CATALOG_COVER_GENERAL,
+    coverRatio: getAssetRatio(CATALOG_COVER_GENERAL, 0.7),
+    file: DOWNLOAD_GENERAL_ES,
+    pdfUrl: "https://drive.google.com/uc?export=download&id=1zP_tZtQpm6R1jgeafb42ETGd-TRgOPtr"
   },
   {
-    id: "catalogo-industrial-es",
-    title: "Catalogo industrial",
-    description: "Informacion tecnica para naves, industria y sector ganadero.",
+    id: "catalogo-sector-industrial",
+    title: "Catálogo Sector Industrial",
+    description: "Documentación comercial para naves, industria y grandes espacios de trabajo.",
     tag: "Industrial",
     language: "ES",
-    file: DOWNLOAD_INDUSTRIAL_ES
+    cover: CATALOG_COVER_INDUSTRIAL,
+    coverRatio: getAssetRatio(CATALOG_COVER_INDUSTRIAL, 0.7),
+    file: DOWNLOAD_INDUSTRIAL_ES,
+    pdfUrl: "https://drive.google.com/uc?export=download&id=1s99JNyI7_PGjlvT5PAfWLGSe0G9hRYOq"
+  },
+  {
+    id: "catalogo-sector-ganadero",
+    title: "Sector Ganadero",
+    description: "Catálogo específico para aplicaciones ganaderas y explotaciones técnicas.",
+    tag: "Ganadero",
+    language: "ES",
+    cover: CATALOG_COVER_GANADERO,
+    coverRatio: getAssetRatio(CATALOG_COVER_GANADERO, 0.7),
+    file: null,
+    pdfUrl: "https://drive.google.com/uc?export=download&id=1G--CU_cNZ9rKFtfnxEqRgtWTjijElDL2"
+  },
+  {
+    id: "manual-instalacion",
+    title: "Manual de Instalación",
+    description: "Documento de apoyo para instalación, montaje y puesta en servicio.",
+    tag: "Manual",
+    language: "ES",
+    cover: CATALOG_COVER_MANUAL,
+    coverRatio: getAssetRatio(CATALOG_COVER_MANUAL, 0.7),
+    file: null,
+    pdfUrl: "https://drive.google.com/uc?export=download&id=1PDra1ekRaI5nHq7DqdYHVHEVE3ENNZFp"
   }
 ];
 
