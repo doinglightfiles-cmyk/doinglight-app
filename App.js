@@ -19,23 +19,27 @@ import { Camera } from "expo-camera";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import { SvgXml } from "react-native-svg";
-import SideDrawer from "./components/SideDrawer";
 import {
   APP_BACKEND_URL,
   BRAND_COLOR,
   CATALOG_REQUEST_SUBJECT,
   INTRO_DURATION_MS,
+  PROFESSIONALS_VIDEO_URL,
   RECEIVER_EMAIL,
   WEBSITE_URL
 } from "./constants/appConstants";
 import COMPANY_LOGO_XML from "./assets/companyLogoXml";
 import LOGO_PIE_WHITE_XML from "./assets/logoPieWhiteXml";
 import AssistantSection from "./sections/AssistantSection";
+import BrujulaSection from "./sections/BrujulaSection";
 import CatalogosSection from "./sections/CatalogosSection";
 import ContactoSection from "./sections/ContactoSection";
 import FichasTecnicasSection from "./sections/FichasTecnicasSection";
 import HomeSection from "./sections/HomeSection";
 import LuxometroSection from "./sections/LuxometroSection";
+import MetroSection from "./sections/MetroSection";
+import NivelSection from "./sections/NivelSection";
+import ProfesionalesSection from "./sections/ProfesionalesSection";
 import styles from "./styles/appStyles";
 import { classifyLux, estimateLuxFromExif, estimateLuxFromLuma } from "./utils/lux";
 import { computeSolarEstimate, toCardinal } from "./utils/solar";
@@ -51,10 +55,10 @@ export default function App() {
   const homeFadeTwo = useRef(new Animated.Value(0)).current;
   const homeFadeThree = useRef(new Animated.Value(0)).current;
   const homeFadeFour = useRef(new Animated.Value(0)).current;
+  const homeFadeFive = useRef(new Animated.Value(0)).current;
   const sectionFade = useRef(new Animated.Value(1)).current;
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const drawerAnim = useRef(new Animated.Value(0)).current;
   const [activeSection, setActiveSection] = useState("inicio");
+  const [sectionHistory, setSectionHistory] = useState([]);
   const [locationAttempted, setLocationAttempted] = useState(false);
   const [headingAttempted, setHeadingAttempted] = useState(false);
   const [acceptedLegal, setAcceptedLegal] = useState(false);
@@ -103,20 +107,13 @@ export default function App() {
   }, [introFade]);
 
   useEffect(() => {
-    Animated.timing(drawerAnim, {
-      toValue: drawerOpen ? 1 : 0,
-      duration: 220,
-      useNativeDriver: true
-    }).start();
-  }, [drawerAnim, drawerOpen]);
-
-  useEffect(() => {
     if (showIntro) return;
 
     homeFadeOne.setValue(0);
     homeFadeTwo.setValue(0);
     homeFadeThree.setValue(0);
     homeFadeFour.setValue(0);
+    homeFadeFive.setValue(0);
     Animated.stagger(180, [
       Animated.timing(homeFadeOne, {
         toValue: 1,
@@ -137,9 +134,14 @@ export default function App() {
         toValue: 1,
         duration: 420,
         useNativeDriver: true
+      }),
+      Animated.timing(homeFadeFive, {
+        toValue: 1,
+        duration: 420,
+        useNativeDriver: true
       })
     ]).start();
-  }, [showIntro, homeFadeOne, homeFadeTwo, homeFadeThree, homeFadeFour]);
+  }, [showIntro, homeFadeOne, homeFadeTwo, homeFadeThree, homeFadeFour, homeFadeFive]);
 
   useEffect(() => {
     if (showIntro || activeSection === "inicio") return;
@@ -481,11 +483,6 @@ export default function App() {
     Boolean(fullName.trim()) ||
     Boolean(email.trim());
 
-  const handleMenuSelect = (section) => {
-    setActiveSection(section);
-    setDrawerOpen(false);
-  };
-
   const openUrl = async (url) => {
     try {
       const supported = await Linking.canOpenURL(url);
@@ -567,6 +564,37 @@ export default function App() {
     await openUrl(`mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`);
   };
 
+  const goHome = () => {
+    setSectionHistory([]);
+    setActiveSection("inicio");
+  };
+
+  const navigateToSection = (nextSection, origin = activeSection) => {
+    if (!nextSection) return;
+    if (nextSection === "inicio") {
+      goHome();
+      return;
+    }
+    if (nextSection === activeSection) return;
+
+    if (origin && origin !== nextSection) {
+      setSectionHistory((prev) => [...prev, origin]);
+    }
+
+    setActiveSection(nextSection);
+  };
+
+  const goBack = () => {
+    if (!sectionHistory.length) {
+      goHome();
+      return;
+    }
+
+    const nextSection = sectionHistory[sectionHistory.length - 1];
+    setSectionHistory((prev) => prev.slice(0, -1));
+    setActiveSection(nextSection);
+  };
+
   const renderSectionContent = () => {
     if (activeSection === "inicio") {
       return (
@@ -575,9 +603,24 @@ export default function App() {
             one: homeFadeOne,
             two: homeFadeTwo,
             three: homeFadeThree,
-            four: homeFadeFour
+            four: homeFadeFour,
+            five: homeFadeFive
           }}
-          onSelectSection={setActiveSection}
+          onSelectSection={(section) => navigateToSection(section, "inicio")}
+        />
+      );
+    }
+
+    if (activeSection === "brujula") {
+      return (
+        <BrujulaSection
+          headingAttempted={headingAttempted}
+          headingCardinal={headingCardinal}
+          headingDegrees={headingDegrees}
+          headingText={headingText}
+          loadingHeading={loadingHeading}
+          onCaptureHeading={requestHeading}
+          sectionFade={sectionFade}
         />
       );
     }
@@ -597,6 +640,14 @@ export default function App() {
           viewportHeight={viewportHeight}
         />
       );
+    }
+
+    if (activeSection === "nivel") {
+      return <NivelSection sectionFade={sectionFade} />;
+    }
+
+    if (activeSection === "metro") {
+      return <MetroSection sectionFade={sectionFade} />;
     }
 
     if (activeSection === "catalogos") {
@@ -629,6 +680,16 @@ export default function App() {
           onOpenWeb={() => openUrl(WEBSITE_URL)}
           sectionFade={sectionFade}
           website={WEBSITE_URL}
+        />
+      );
+    }
+
+    if (activeSection === "profesionales") {
+      return (
+        <ProfesionalesSection
+          onOpenVideo={() => openUrl(PROFESSIONALS_VIDEO_URL)}
+          onSelectTool={(toolId) => navigateToSection(toolId, "profesionales")}
+          sectionFade={sectionFade}
         />
       );
     }
@@ -733,16 +794,23 @@ export default function App() {
       <StatusBar style="dark" />
       <SafeAreaView edges={["top"]} style={styles.topSafeArea}>
         <View style={styles.topBar}>
-          <Pressable onPress={() => setDrawerOpen(true)} style={styles.menuButton}>
-            <MaterialIcons name="menu" size={30} color={BRAND_COLOR} />
+          <View style={styles.topBarSide}>
+            {activeSection !== "inicio" ? (
+              <Pressable onPress={goBack} style={styles.topBarBackButton}>
+                <MaterialIcons name="arrow-back" size={24} color={BRAND_COLOR} />
+              </Pressable>
+            ) : null}
+          </View>
+          <Pressable onPress={goHome} style={styles.topBarLogoButton}>
+            <SvgXml
+              xml={COMPANY_LOGO_XML}
+              width={165}
+              height={40}
+              preserveAspectRatio="xMidYMid meet"
+              style={styles.headerLogo}
+            />
           </Pressable>
-          <SvgXml
-            xml={COMPANY_LOGO_XML}
-            width={165}
-            height={40}
-            preserveAspectRatio="xMidYMid meet"
-            style={styles.headerLogo}
-          />
+          <View style={styles.topBarSide} />
         </View>
       </SafeAreaView>
       <ScrollView
@@ -757,13 +825,6 @@ export default function App() {
       >
         {renderSectionContent()}
       </ScrollView>
-
-      <SideDrawer
-        drawerAnim={drawerAnim}
-        drawerOpen={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        onSelect={handleMenuSelect}
-      />
 
       <Modal visible={Boolean(selectedCatalog) && Platform.OS !== "web"} animationType="slide" onRequestClose={closeCatalogViewer}>
         <SafeAreaView style={styles.pdfViewerScreen}>

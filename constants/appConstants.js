@@ -4,14 +4,23 @@ export const RECEIVER_EMAIL = "info@doinglight.es";
 export const WEBSITE_URL = "https://doinglight.es";
 export const APP_BACKEND_URL = "https://doinglight-app-backend-production.up.railway.app";
 export const CATALOG_REQUEST_SUBJECT = "Solicitud de catalogo Doinglight";
+export const PROFESSIONALS_VIDEO_URL = "https://www.youtube.com/watch?v=zY8L7Vj7EDY&pp=ygUKZG9pbmdsaWdodA%3D%3D";
+export const PROFESSIONALS_VIDEO_EMBED_URL = "https://www.youtube.com/embed/zY8L7Vj7EDY";
 export const ROOF_TYPES = ["Tejado plano", "Tejado inclinado", "Tejado abuhardillado"];
 export const BRAND_COLOR = "#9cc31a";
 export const INTRO_DURATION_MS = 1800;
 export const DRAWER_WIDTH = 280;
+export const PROFESSIONAL_TOOLS = [
+  { id: "luxometro", title: "Luxómetro", icon: "wb-sunny" },
+  { id: "brujula", title: "Brújula", icon: "explore" },
+  { id: "nivel", title: "Nivel", icon: "straighten" },
+  { id: "metro", title: "Metro", icon: "square-foot" }
+];
 
 export const HOME_BANNER = require("../assets/home-asistente.jpg");
 export const HOME_BANNER_LUXOMETRO = require("../assets/home-luxometro.jpg");
 export const HOME_BANNER_CATALOGOS = require("../assets/home-catalogos.jpg");
+export const HOME_BANNER_PROFESIONALES = require("../assets/home/zona-profesionales.jpg");
 export const HOME_BANNER_CONTACTO = require("../assets/home-contacto.jpg");
 export const LUXOMETRO_BG = require("../assets/luxometro-bg.jpg");
 export const DOWNLOAD_GENERAL_ES = require("../assets/downloads/ES_Catalogo_Doinglight.pdf");
@@ -163,4 +172,5 @@ function getAssetRatio(moduleRef, fallback = 16 / 7) {
 export const HOME_BANNER_RATIO = getAssetRatio(HOME_BANNER);
 export const HOME_BANNER_LUX_RATIO = getAssetRatio(HOME_BANNER_LUXOMETRO);
 export const HOME_BANNER_CATALOGOS_RATIO = getAssetRatio(HOME_BANNER_CATALOGOS);
+export const HOME_BANNER_PROFESIONALES_RATIO = getAssetRatio(HOME_BANNER_PROFESIONALES);
 export const HOME_BANNER_CONTACTO_RATIO = getAssetRatio(HOME_BANNER_CONTACTO);

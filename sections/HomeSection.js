@@ -8,6 +8,8 @@ import {
   HOME_BANNER_CONTACTO_RATIO,
   HOME_BANNER_LUXOMETRO,
   HOME_BANNER_LUX_RATIO,
+  HOME_BANNER_PROFESIONALES,
+  HOME_BANNER_PROFESIONALES_RATIO,
   HOME_BANNER_RATIO
 } from "../constants/appConstants";
 import styles from "../styles/appStyles";
@@ -40,6 +42,11 @@ export default function HomeSection({ fades, onSelectSection }) {
         </View>
       </Animated.View>
       <Animated.View style={{ opacity: fades.four }}>
+        <View style={styles.homeBannerSpacer}>
+          {renderBanner(HOME_BANNER_PROFESIONALES, HOME_BANNER_PROFESIONALES_RATIO, "profesionales")}
+        </View>
+      </Animated.View>
+      <Animated.View style={{ opacity: fades.five }}>
         <View style={styles.homeBannerSpacer}>
           {renderBanner(HOME_BANNER_CONTACTO, HOME_BANNER_CONTACTO_RATIO, "contacto")}
         </View>

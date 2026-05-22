@@ -70,6 +70,51 @@ const styles = StyleSheet.create({
   homeBannerSpacer: {
     marginTop: 0
   },
+  homeProfessionalsBanner: {
+    aspectRatio: 16 / 7,
+    backgroundColor: "#6f9413",
+    justifyContent: "center",
+    paddingHorizontal: 22,
+    paddingVertical: 20
+  },
+  homeProfessionalsBannerInner: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 16
+  },
+  homeProfessionalsCopy: {
+    flex: 1,
+    maxWidth: 420
+  },
+  homeProfessionalsEyebrow: {
+    color: "rgba(255,255,255,0.72)",
+    fontSize: 14,
+    fontWeight: "700",
+    letterSpacing: 1.2,
+    textTransform: "uppercase"
+  },
+  homeProfessionalsTitle: {
+    marginTop: 8,
+    color: "#ffffff",
+    fontSize: 30,
+    lineHeight: 34,
+    fontWeight: "800"
+  },
+  homeProfessionalsText: {
+    marginTop: 10,
+    color: "rgba(255,255,255,0.9)",
+    fontSize: 14,
+    lineHeight: 21
+  },
+  homeProfessionalsIcons: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-end",
+    gap: 12,
+    maxWidth: 180
+  },
   placeholderWrap: {
     paddingHorizontal: 16,
     paddingTop: 28
@@ -209,6 +254,21 @@ const styles = StyleSheet.create({
   },
   headerLogo: {
     marginTop: 0
+  },
+  topBarSide: {
+    width: 44,
+    alignItems: "flex-start",
+    justifyContent: "center"
+  },
+  topBarBackButton: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  topBarLogoButton: {
+    alignItems: "center",
+    justifyContent: "center"
   },
   topSafeArea: {
     backgroundColor: "#f4f4f4"
@@ -698,6 +758,259 @@ const styles = StyleSheet.create({
   secondaryCtaText: {
     color: "#2f4421",
     fontSize: 14,
+    fontWeight: "700"
+  },
+  professionalsSectionWrap: {
+    padding: 16,
+    paddingTop: 24,
+    paddingBottom: 40,
+    backgroundColor: BRAND_COLOR,
+    minHeight: "100%"
+  },
+  professionalsSectionTitle: {
+    color: "#ffffff",
+    fontSize: 28,
+    lineHeight: 32,
+    fontWeight: "800"
+  },
+  professionalsVideoFrame: {
+    marginTop: 18,
+    width: "100%",
+    aspectRatio: 16 / 9,
+    overflow: "hidden",
+    backgroundColor: "#37500d",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.18)"
+  },
+  professionalsVideoWebview: {
+    flex: 1,
+    backgroundColor: "#000000"
+  },
+  professionalsVideoPlaceholder: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    gap: 12
+  },
+  professionalsVideoPlaceholderTitle: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "800",
+    textAlign: "center"
+  },
+  professionalsVideoPlaceholderText: {
+    color: "rgba(255,255,255,0.82)",
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: "center",
+    maxWidth: 460
+  },
+  professionalsVideoButton: {
+    marginTop: 6,
+    minHeight: 46,
+    paddingHorizontal: 18,
+    backgroundColor: "#ffffff",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10
+  },
+  professionalsVideoButtonText: {
+    color: BRAND_COLOR,
+    fontSize: 14,
+    fontWeight: "800"
+  },
+  professionalsToolsTitle: {
+    marginTop: 24,
+    color: "#ffffff",
+    fontSize: 24,
+    lineHeight: 28,
+    fontWeight: "800"
+  },
+  professionalsToolsRow: {
+    marginTop: 18,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 12,
+    flexWrap: "wrap"
+  },
+  professionalsToolItem: {
+    flex: 1,
+    minWidth: 70,
+    alignItems: "center",
+    gap: 10
+  },
+  professionalsToolIcon: {
+    width: 62,
+    height: 62,
+    borderRadius: 31,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.28)",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  professionalsToolLabel: {
+    color: "#ffffff",
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: "700",
+    textAlign: "center"
+  },
+  toolSectionWrap: {
+    padding: 16,
+    paddingTop: 24,
+    paddingBottom: 40,
+    backgroundColor: BRAND_COLOR,
+    minHeight: "100%"
+  },
+  toolSectionTitle: {
+    color: "#ffffff",
+    fontSize: 28,
+    lineHeight: 32,
+    fontWeight: "800"
+  },
+  toolSectionLead: {
+    marginTop: 12,
+    color: "rgba(255,255,255,0.88)",
+    fontSize: 15,
+    lineHeight: 23,
+    maxWidth: 760
+  },
+  toolPanel: {
+    marginTop: 20,
+    padding: 18,
+    backgroundColor: "rgba(0,0,0,0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.14)",
+    alignItems: "center"
+  },
+  toolValue: {
+    marginTop: 16,
+    color: "#ffffff",
+    fontSize: 24,
+    lineHeight: 28,
+    fontWeight: "800",
+    textAlign: "center"
+  },
+  toolSupportText: {
+    marginTop: 10,
+    color: "rgba(255,255,255,0.82)",
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: "center",
+    maxWidth: 540
+  },
+  toolPrimaryButton: {
+    marginTop: 18,
+    minHeight: 48,
+    paddingHorizontal: 18,
+    backgroundColor: "rgba(255,255,255,0.14)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.2)",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    alignSelf: "flex-start"
+  },
+  toolPrimaryButtonText: {
+    color: "#ffffff",
+    fontSize: 14,
+    fontWeight: "800"
+  },
+  toolLoadingBox: {
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+    minHeight: 200
+  },
+  levelBoard: {
+    width: 168,
+    height: 168,
+    borderRadius: 84,
+    borderWidth: 2,
+    borderColor: "rgba(255,255,255,0.36)",
+    backgroundColor: "rgba(255,255,255,0.08)",
+    position: "relative",
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  levelGuideHorizontal: {
+    position: "absolute",
+    left: 18,
+    right: 18,
+    height: 1,
+    backgroundColor: "rgba(255,255,255,0.35)"
+  },
+  levelGuideVertical: {
+    position: "absolute",
+    top: 18,
+    bottom: 18,
+    width: 1,
+    backgroundColor: "rgba(255,255,255,0.35)"
+  },
+  levelBubble: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#ffffff",
+    borderWidth: 3,
+    borderColor: "#d7ef8d"
+  },
+  rulerOptionRow: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 10,
+    flexWrap: "wrap"
+  },
+  rulerOptionButton: {
+    minWidth: 72,
+    minHeight: 40,
+    paddingHorizontal: 14,
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.16)",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  rulerOptionButtonActive: {
+    backgroundColor: "#ffffff"
+  },
+  rulerOptionText: {
+    color: "#ffffff",
+    fontSize: 13,
+    fontWeight: "700"
+  },
+  rulerOptionTextActive: {
+    color: BRAND_COLOR
+  },
+  rulerScroll: {
+    paddingTop: 22,
+    paddingBottom: 12
+  },
+  rulerTrack: {
+    height: 72,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.28)",
+    backgroundColor: "rgba(255,255,255,0.08)",
+    position: "relative"
+  },
+  rulerMark: {
+    position: "absolute",
+    bottom: 0,
+    alignItems: "center"
+  },
+  rulerTick: {
+    width: 1,
+    backgroundColor: "#ffffff"
+  },
+  rulerMarkLabel: {
+    marginTop: 6,
+    color: "#ffffff",
+    fontSize: 11,
     fontWeight: "700"
   },
   submitButton: {
