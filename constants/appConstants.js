@@ -13,8 +13,7 @@ export const DRAWER_WIDTH = 280;
 export const PROFESSIONAL_TOOLS = [
   { id: "luxometro", title: "Luxómetro", icon: "wb-sunny" },
   { id: "brujula", title: "Brújula", icon: "explore" },
-  { id: "nivel", title: "Nivel", icon: "straighten" },
-  { id: "metro", title: "Metro", icon: "square-foot" }
+  { id: "nivel", title: "Nivel", icon: "straighten" }
 ];
 
 export const HOME_BANNER = require("../assets/home-asistente.jpg");

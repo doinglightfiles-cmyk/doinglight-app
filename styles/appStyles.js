@@ -885,12 +885,35 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.14)",
     alignItems: "center"
   },
+  toolLiveBadge: {
+    marginBottom: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 999,
+    backgroundColor: "rgba(255,255,255,0.86)",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6
+  },
+  toolLiveBadgeText: {
+    color: "#31451f",
+    fontSize: 12,
+    fontWeight: "800"
+  },
   toolValue: {
     marginTop: 16,
     color: "#ffffff",
     fontSize: 24,
     lineHeight: 28,
     fontWeight: "800",
+    textAlign: "center"
+  },
+  toolMetaText: {
+    marginTop: 6,
+    color: "rgba(255,255,255,0.9)",
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: "700",
     textAlign: "center"
   },
   toolSupportText: {

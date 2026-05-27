@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -37,7 +37,6 @@ import ContactoSection from "./sections/ContactoSection";
 import FichasTecnicasSection from "./sections/FichasTecnicasSection";
 import HomeSection from "./sections/HomeSection";
 import LuxometroSection from "./sections/LuxometroSection";
-import MetroSection from "./sections/MetroSection";
 import NivelSection from "./sections/NivelSection";
 import ProfesionalesSection from "./sections/ProfesionalesSection";
 import styles from "./styles/appStyles";
@@ -75,6 +74,9 @@ export default function App() {
   const [headingText, setHeadingText] = useState("");
   const [headingDegrees, setHeadingDegrees] = useState(null);
   const [headingCardinal, setHeadingCardinal] = useState("");
+  const [headingAccuracy, setHeadingAccuracy] = useState(null);
+  const [headingLive, setHeadingLive] = useState(false);
+  const [headingStatus, setHeadingStatus] = useState("");
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
   const [loadingLocation, setLoadingLocation] = useState(false);
@@ -94,6 +96,31 @@ export default function App() {
   const cameraRef = useRef(null);
 
   const solarData = useMemo(() => computeSolarEstimate(lat), [lat]);
+
+  const applyHeadingReading = useCallback((headingData) => {
+    const heading =
+      typeof headingData?.trueHeading === "number" && headingData.trueHeading >= 0
+        ? headingData.trueHeading
+        : headingData?.magHeading;
+
+    if (typeof heading !== "number" || !Number.isFinite(heading)) {
+      return false;
+    }
+
+    const deg = Number((((heading % 360) + 360) % 360).toFixed(1));
+    const cardinal = toCardinal(deg);
+    const accuracy =
+      typeof headingData?.accuracy === "number" && Number.isFinite(headingData.accuracy)
+        ? headingData.accuracy
+        : null;
+
+    setHeadingAttempted(true);
+    setHeadingDegrees(deg);
+    setHeadingCardinal(cardinal);
+    setHeadingAccuracy(accuracy);
+    setHeadingText(`${deg}° (${cardinal})`);
+    return true;
+  }, []);
 
   useEffect(() => {
     Animated.timing(introFade, {
@@ -153,6 +180,61 @@ export default function App() {
     }).start();
   }, [activeSection, sectionFade, showIntro]);
 
+  useEffect(() => {
+    if (showIntro || activeSection !== "brujula") {
+      setHeadingLive(false);
+      return undefined;
+    }
+
+    let mounted = true;
+    let subscription = null;
+
+    const startHeadingWatch = async () => {
+      try {
+        setHeadingAttempted(true);
+        setLoadingHeading(true);
+        setHeadingStatus("Iniciando brújula en tiempo real...");
+
+        subscription = await Location.watchHeadingAsync(
+          (headingData) => {
+            if (!mounted) return;
+            const applied = applyHeadingReading(headingData);
+            if (!applied) return;
+
+            const accuracy = typeof headingData?.accuracy === "number" ? headingData.accuracy : 0;
+            setHeadingLive(true);
+            setLoadingHeading(false);
+            setHeadingStatus(
+              accuracy >= 2
+                ? "Lectura en tiempo real."
+                : "Lectura en tiempo real. Mueve el móvil en forma de 8 si la aguja oscila."
+            );
+          },
+          () => {
+            if (!mounted) return;
+            setHeadingLive(false);
+            setLoadingHeading(false);
+            setHeadingStatus("No se pudo iniciar la brújula en tiempo real.");
+          }
+        );
+      } catch (error) {
+        if (!mounted) return;
+        setHeadingLive(false);
+        setLoadingHeading(false);
+        setHeadingStatus("Este dispositivo o entorno no permite lectura continua de brújula.");
+      }
+    };
+
+    startHeadingWatch();
+
+    return () => {
+      mounted = false;
+      subscription?.remove();
+      setHeadingLive(false);
+      setLoadingHeading(false);
+    };
+  }, [activeSection, applyHeadingReading, showIntro]);
+
   const requestLocation = async () => {
     try {
       setLocationAttempted(true);
@@ -209,11 +291,12 @@ export default function App() {
       }
 
       const headingData = await Location.getHeadingAsync();
-      const deg = Number((headingData.trueHeading || headingData.magHeading || 0).toFixed(1));
-      const cardinal = toCardinal(deg);
-      setHeadingDegrees(deg);
-      setHeadingCardinal(cardinal);
-      setHeadingText(`${deg}° (${cardinal})`);
+      const applied = applyHeadingReading(headingData);
+      if (!applied) {
+        Alert.alert("Error", "No se pudo capturar una lectura de orientación válida.");
+      } else {
+        setHeadingStatus("Lectura actualizada.");
+      }
     } catch (error) {
       Alert.alert("Error", "No se pudo capturar la orientacion. Intenta en exterior.");
     } finally {
@@ -615,8 +698,11 @@ export default function App() {
       return (
         <BrujulaSection
           headingAttempted={headingAttempted}
+          headingAccuracy={headingAccuracy}
           headingCardinal={headingCardinal}
           headingDegrees={headingDegrees}
+          headingLive={headingLive}
+          headingStatus={headingStatus}
           headingText={headingText}
           loadingHeading={loadingHeading}
           onCaptureHeading={requestHeading}
@@ -644,10 +730,6 @@ export default function App() {
 
     if (activeSection === "nivel") {
       return <NivelSection sectionFade={sectionFade} />;
-    }
-
-    if (activeSection === "metro") {
-      return <MetroSection sectionFade={sectionFade} />;
     }
 
     if (activeSection === "catalogos") {
